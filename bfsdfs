@@ -57,3 +57,83 @@ if __name__=='__main__':
     bfs_rec(graph,start_node,visited,queue)
     print("DFS TRAVERSAL:")
     dfs_rec(graph,start_node)
+
+
+
+
+
+
+
+
+------------------------------------------
+
+from collections import deque
+
+def create():
+    graph = {}  # creating a dictionary for storing key-value pairs in the form of a graph
+    edges = int(input("Enter number of edges:"))
+
+    for i in range(edges):
+        src, dest = input("Enter edge (source destination)").split()
+        if src not in graph:
+            graph[src] = []
+        if dest not in graph:
+            graph[dest] = []
+
+        graph[src].append(dest)
+        graph[dest].append(src)
+
+    return graph
+
+def get_start_and_end_nodes():
+    start_node = input("Enter the start node:")
+    end_node = input("Enter the end node:")
+    return start_node, end_node
+
+def dfs_rec(graph, start, end, visited=None, path=None):
+    if visited is None:
+        visited = set()
+    if path is None:
+        path = []
+
+    visited.add(start)
+    path.append(start)
+
+    if start == end:
+        print("DFS TRAVERSAL:")
+        print(path,end=' ')
+        return True  # Return True if the end node is reached
+
+    for neighbour in graph[start]:
+        if neighbour not in visited:
+            if dfs_rec(graph, neighbour, end, visited, path):
+                return True
+
+    path.pop()  # Remove the current node from the path if it doesn't lead to the end node
+    return False
+
+def bfs(graph, start, end):
+    queue = deque([[start]])
+
+    while queue:
+        path = queue.popleft()
+        node = path[-1]
+
+        if node == end:
+            print("BFS TRAVERSAL:")
+            print(path)
+            return
+
+        for neighbour in graph[node]:
+            if neighbour not in path:
+                new_path = list(path)
+                new_path.append(neighbour)
+                queue.append(new_path)
+
+if __name__ == '__main__':
+    graph = create()
+    start_node, end_node = get_start_and_end_nodes()
+
+    dfs_rec(graph, start_node, end_node)
+
+    bfs(graph, start_node, end_node)
