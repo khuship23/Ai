@@ -1,0 +1,136 @@
+
+Here are SQL queries for each of your requests:
+
+A query to use the Order By Clause to order the table on the basis of surname and department:
+sql
+Copy code
+SELECT * FROM employees
+ORDER BY last_name, department;
+
+A query to join three tables:
+sql
+Copy code
+SELECT * FROM TableA
+JOIN TableB ON TableA.common_column = TableB.common_column
+JOIN TableC ON TableB.common_column = TableC.common_column;
+
+Display employees whose salary is between 50000 to 100000:
+sql
+Copy code
+SELECT * FROM employees
+WHERE salary BETWEEN 50000 AND 100000;
+
+Display the employees whose name begins with 's':
+sql
+Copy code
+SELECT * FROM employees
+WHERE first_name LIKE 'S%';
+
+Find the number of employees whose birthdate is between some dates and group by gender:
+sql
+Copy code
+SELECT gender, COUNT(*) AS employee_count
+FROM employees
+WHERE birthdate BETWEEN '1980-01-01' AND '1990-12-31'
+GROUP BY gender;
+
+Display salary from the employee table:
+sql
+Copy code
+SELECT salary FROM employees;
+
+Display details of employees who work under manager id-986:
+sql
+Copy code
+SELECT * FROM employees
+WHERE manager_id = 986;
+
+Display the details of an employee whose last name ends with the letter 'a' and contains 5 letters:
+sql
+Copy code
+SELECT * FROM employees
+WHERE last_name LIKE 'a___a';
+
+Display the 3rd highest salary from the employee table:
+sql
+Copy code
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 2, 1;
+
+Display the 1st and last record from the employee salary table:
+sql
+Copy code
+-- Display the 1st record
+SELECT * FROM employee_salary LIMIT 1;
+
+-- Display the last record
+SELECT * FROM employee_salary ORDER BY employee_id DESC LIMIT 1;
+Create the three tables TableA, TableB, TableC. Join the first two tables using a join query:
+sql
+Copy code
+CREATE TABLE TableA (
+    -- Define columns for TableA
+);
+
+CREATE TABLE TableB (
+    -- Define columns for TableB
+);
+
+CREATE TABLE TableC (
+    -- Define columns for TableC
+);
+
+-- Join the first two tables (TableA and TableB)
+SELECT *
+FROM TableA
+JOIN TableB ON TableA.common_column = TableB.common_column;
+Create an EmpPosition Table and display the person's records having the third highest salary:
+sql
+Copy code
+CREATE TABLE EmpPosition (
+    -- Define columns for EmpPosition
+);
+
+-- Query to display the person's records with the third-highest salary
+SELECT *
+FROM EmpPosition
+ORDER BY salary DESC
+LIMIT 2, 1;
+Create an EmpInfo table and display the first and last record of the table:
+sql
+Copy code
+CREATE TABLE EmpInfo (
+    -- Define columns for EmpInfo
+);
+
+-- Query to display the first record
+SELECT * FROM EmpInfo LIMIT 1;
+
+-- Query to display the last record
+SELECT * FROM EmpInfo ORDER BY employee_id DESC LIMIT 1;
+Form three tables TableA, TableB, and TableC. By making use of only two join operations, find the intersection between all three tables:
+sql
+Copy code
+CREATE TABLE TableA (
+    -- Define columns for TableA
+);
+
+CREATE TABLE TableB (
+    -- Define columns for TableB
+);
+
+CREATE TABLE TableC (
+    -- Define columns for TableC
+);
+
+-- Find the intersection using two join operations
+SELECT * FROM TableA
+JOIN TableB ON TableA.common_column = TableB.common_column
+JOIN TableC ON TableB.common_column = TableC.common_column;
+These queries should address your various database operations and queries based on the provided requirements. Please adapt the table and column names as needed to match your specific database schema.
+
+
+
+
