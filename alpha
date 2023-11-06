@@ -1,0 +1,58 @@
+MAX, MIN = -1000, 1000
+
+def alphaBeta(depth, node, maximizingPlayer, values, alpha, beta):
+    if depth == n:
+        return values[node]
+
+    if maximizingPlayer:
+        best = MAX
+        for i in range(2):  # Binary tree, so the branching factor is 2
+            val = alphaBeta(depth + 1, node * 2 + i, False, values, alpha, beta)
+            best = max(best, val)
+            alpha = max(alpha, best)
+
+            if beta <= alpha:
+                break
+
+        return best
+
+    else:
+        best = MIN
+        for i in range(2):  # Binary tree, so the branching factor is 2
+            val = alphaBeta(depth + 1, node * 2 + i, True, values, alpha, beta)
+            best = min(best, val)
+            beta = min(beta, best)
+
+            if beta <= alpha:
+                break
+
+        return best
+
+if __name__ == "__main__":
+    values = []
+    n = int(input("Enter the depth of the tree: "))
+    for i in range(2**n):
+        a = int(input("Enter the value: "))
+        values.append(a)
+    print("The Optimal Value is :", alphaBeta(0, 0, True, values, MAX, MIN))
+
+
+
+# '''
+#     Sample Input - 
+#         Enter the depth of the tree: 3
+#         Enter the values: 3
+#         Enter the values: 5
+#         Enter the values: 2
+#         Enter the values: 9
+#         Enter the values: 12
+#         Enter the values: 5
+#         Enter the values: 23
+#         Enter the values: 6
+        
+#     Sample Output - 
+#         The Optimal Vlaue is : 12 
+
+# '''
+
+
