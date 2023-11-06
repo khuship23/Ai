@@ -1,0 +1,78 @@
+import heapq
+
+def astar(graph, start, goal):
+    open_list = [(0, start)]
+    came_from = {}
+    g_score = {node: float('inf') for node in graph}
+    g_score[start] = 0
+    
+    while open_list:
+        current_cost, current_node = heapq.heappop(open_list)
+        
+        if current_node == goal:
+            path = []
+            while current_node in came_from:
+                path.append(current_node)
+                current_node = came_from[current_node]
+            path.append(start)
+            return list(reversed(path)) 
+        
+        for neighbor, cost in graph.get(current_node, {}).items():
+            tentative_g_score = g_score[current_node] + cost
+            
+            if tentative_g_score < g_score.get(neighbor, float('inf')):
+                came_from[neighbor] = current_node
+                g_score[neighbor] = tentative_g_score
+                f_score = tentative_g_score + heuristic(neighbor, goal)
+                heapq.heappush(open_list, (f_score, neighbor))
+    
+    return None
+
+def heuristic(node, goal):
+    # Simple heuristic: Cost from current node to goal node
+    return 0  # In this example, the heuristic is 0, making A* equivalent to Dijkstra's algorithm
+
+def get_user_input():
+    graph = {}
+    num_edges = int(input("Enter the number of edges: "))
+
+    for _ in range(num_edges):
+        source, dest, cost = input("Enter edge (source dest cost): ").split()
+        cost = int(cost)
+
+        if source not in graph:
+            graph[source] = {}
+        if dest not in graph:
+            graph[dest] = {}
+
+        graph[source][dest] = cost
+
+    start_node = input("Enter the start node: ")
+    goal_node = input("Enter the goal node: ")
+
+    return graph, start_node, goal_node
+
+if __name__ == "__main__":
+    user_graph, user_start, user_goal = get_user_input()
+
+    path = astar(user_graph, user_start, user_goal)
+
+    if path:
+        print("Shortest path:", path)
+    else:
+        print("No path found")
+
+
+
+
+Enter the number of edges: 7
+Enter edge (source dest cost): 1 2 1
+Enter edge (source dest cost): 1 3 3
+Enter edge (source dest cost): 2 4 2
+Enter edge (source dest cost): 3 4 5
+Enter edge (source dest cost): 4 5 4
+Enter edge (source dest cost): 2 6 7
+Enter edge (source dest cost): 5 7 6
+Enter the start node: 1
+Enter the goal node: 7
+Shortest path: ['1', '2', '4', '5', '7']
