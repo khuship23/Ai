@@ -76,3 +76,79 @@ Enter edge (source dest cost): 5 7 6
 Enter the start node: 1
 Enter the goal node: 7
 Shortest path: ['1', '2', '4', '5', '7']
+
+
+
+
+
+
+------------------------------------------
+import heapq
+
+class GraphNode:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+        self.edges = {}
+
+    def add_edge(self, node, weight):
+        self.edges[node] = weight
+
+    def __lt__(self, other):
+        return self.value < other.value
+
+def heuristic(node, target_node):
+    # Calculate Manhattan distance for grid-based problem
+    node_x, node_y = node.value
+    target_x, target_y = target_node.value
+    return abs(node_x - target_x) + abs(node_y - target_y)
+
+def create_nodes():
+    nodes = {}
+    num_nodes = int(input("Enter the number of nodes: "))
+    for _ in range(num_nodes):
+        node_name = input("Enter node name: ")
+        node_x, node_y = map(int, input("Enter coordinates (x y): ").split())
+        nodes[node_name] = GraphNode(node_name, (node_x, node_y))
+    return nodes
+
+def create_edges(nodes):
+    num_edges = int(input("Enter the number of edges: "))
+    for _ in range(num_edges):
+        src, dest = input("Enter edge (source destination): ").split()
+        weight = int(input("Enter edge weight: "))
+        nodes[src].add_edge(nodes[dest], weight)
+
+def astar_search(nodes, start_node, target_node):
+    open_list = []
+    closed_list = set()
+
+    heapq.heappush(open_list, (0, nodes[start_node], []))  # Modified to include path
+    while open_list:
+        current_cost, current_node, current_path = heapq.heappop(open_list)
+        closed_list.add(current_node)
+
+        if current_node == nodes[target_node]:
+            return current_path + [current_node]  # Return the path if the target node is found
+
+        for neighbor, weight in current_node.edges.items():
+            if neighbor not in closed_list:
+                heuristic_cost = heuristic(neighbor, nodes[target_node])
+                heapq.heappush(open_list, (current_cost + weight + heuristic_cost, neighbor, current_path + [current_node]))
+
+    return None  # No path found
+
+if __name__ == '__main__':
+    nodes = create_nodes()
+    create_edges(nodes)
+
+    start_node = input("Enter start node: ")
+    target_node = input("Enter target node: ")
+    
+    path = astar_search(nodes, start_node, target_node)
+
+    if path:
+        print("Path found from {} to {}:".format(start_node, target_node))
+        print("  ", [node.name for node in path])
+    else:
+        print("Path not found from {} to {}.".format(start_node, target_node))
