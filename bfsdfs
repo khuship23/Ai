@@ -1,0 +1,59 @@
+def create():
+    graph={}  #creating a dictionary for storing key value pair in the form of graph
+    edges=int(input("Enter number of edges:"))
+    
+    for i in range(edges):
+        src,dest=input("Enter edge").split()
+        if src not in graph:
+           
+            graph[src]=[]
+        if dest not in graph:
+            graph[dest]=[]
+            
+        graph[src].append(dest)
+        graph[dest].append(src)    
+        
+    return graph
+
+def strt_node():
+    strt_node=input("Enter the start node:")
+    return strt_node
+
+def dfs_rec(graph,start,visited=None):
+    if visited is None:
+        visited=set()
+    
+    
+    visited.add(start)
+    print(start,end=' ')
+    
+    for neighbour in graph[start]: #?
+        if neighbour not in visited :
+            dfs_rec(graph,neighbour,visited)
+            
+    return visited #?
+
+
+def bfs_rec(graph,start,visited,queue):
+    if not queue:
+        return
+    
+    start=queue.pop(0) #?
+    print(start, end=' ')
+    visited.add(start)
+    
+    for neighbour in graph[start]:
+        if neighbour not in visited and neighbour not in queue:
+            queue.append(neighbour)
+        bfs_rec(graph,neighbour,visited,queue)
+    
+if __name__=='__main__':
+    graph=create()
+    start_node=strt_node()
+    visited=set()
+    queue=[start_node]
+    
+    print("BFS TRAVERSAL:")
+    bfs_rec(graph,start_node,visited,queue)
+    print("DFS TRAVERSAL:")
+    dfs_rec(graph,start_node)
